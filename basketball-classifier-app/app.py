@@ -10,10 +10,12 @@ from io import BytesIO
 st.set_page_config(page_title="Basketball Legend Classifier", layout="wide")
 st.markdown("Developed by Ajey")
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # ── Load model ─────────────────────────────────────────────
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model("model.h5")
+    return tf.keras.models.load_model(os.path.join(BASE_DIR, "model.h5"))
 
 def get_base64(path):
     with open(path, "rb") as file:
@@ -34,7 +36,7 @@ PLAYER_EMOJI = {
     'stephen_curry':    '🎯',
 }
 
-bg = get_base64("images/bg-image.jpg")
+bg = get_base64(os.path.join(BASE_DIR, "images", "bg-image.jpg"))
 # ── CSS ────────────────────────────────────────────────────
 page_style = f"""
 <style>
@@ -134,7 +136,7 @@ if not st.session_state.predicted:
 
     uploaded_file = st.file_uploader("Drag and Drop or Upload an image...", type=["jpg", "png", "jpeg"])
 
-    sample_folder = "sample_images"
+    sample_folder = os.path.join(BASE_DIR, "sample_images")
     sample_images = [f for f in os.listdir(sample_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
 
     if uploaded_file is None and sample_images:
