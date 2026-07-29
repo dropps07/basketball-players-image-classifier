@@ -8,11 +8,18 @@ from io import BytesIO
 
 # ── Page config ────────────────────────────────────────────
 st.set_page_config(page_title="Basketball Legend Classifier", layout="wide")
+st.markdown("Developed by Ajey")
 
 # ── Load model ─────────────────────────────────────────────
 @st.cache_resource
 def load_model():
     return tf.keras.models.load_model("model.h5")
+
+def get_base64(path):
+    with open(path, "rb") as file:
+        data = file.read()
+    encoded= base64.b64encode(data).decode()
+    return encoded
 
 model = load_model()
 
@@ -27,47 +34,48 @@ PLAYER_EMOJI = {
     'stephen_curry':    '🎯',
 }
 
+bg = get_base64("images/bg-image.jpg")
 # ── CSS ────────────────────────────────────────────────────
-page_style = """
+page_style = f"""
 <style>
-    .stApp {
-        background-image: url("https://wallpapercave.com/wp/wp7614422.jpg");
+    .stApp {{
+        background-image: url("data:image/jpeg;base64,{bg}");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
         font-family: 'Segoe UI', sans-serif;
-    }
-    .glass-header {
-        backdrop-filter: blur(10px);
-        background-color: rgba(0, 0, 0, 0.45);
+    }}
+    .glass-header {{
+        backdrop-filter: blur(5px);
+        background-color: transparent;
         padding: 1.5rem 1rem;
         border-radius: 25px;
         margin-bottom: 2rem;
-        color: white;
+        color: red;
         text-align: center;
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    }
-    .glass-header h1 {
+    }}
+    .glass-header h1 {{
         font-size: 2.5rem;
         font-weight: 900;
         margin-bottom: 0.2rem;
         color: white;
-    }
-    .glass-header p {
+    }}
+    .glass-header p {{
         font-size: 1rem;
         margin-top: 0.5rem;
         color: #f0a500;
-    }
-    .instruction {
+    }}
+    .instruction {{
         background-color: rgba(0, 0, 0, 0.5);
         border-radius: 20px;
         padding: 1rem 1.5rem;
         color: white;
         margin-bottom: 1.5rem;
         text-align: center;
-    }
-    .player-name {
+    }}
+    .player-name {{
         position: absolute;
         top: 12px;
         left: 12px;
@@ -77,16 +85,16 @@ page_style = """
         border-radius: 10px;
         color: black;
         font-size: 1rem;
-    }
-    .img-wrapper {
+    }}
+    .img-wrapper {{
         position: relative;
         display: inline-block;
         border-radius: 15px;
         overflow: hidden;
         border: 3px solid #f0a500;
         margin-top: 20px;
-    }
-    .confidence {
+    }}
+    .confidence {{
         background-color: rgba(0,0,0,0.6);
         color: #f0a500;
         border-radius: 12px;
@@ -96,7 +104,7 @@ page_style = """
         font-weight: 600;
         text-align: center;
         display: inline-block;
-    }
+    }}
 </style>
 """
 
@@ -106,7 +114,9 @@ st.markdown(page_style, unsafe_allow_html=True)
 st.markdown("""
 <div class="glass-header">
     <h1>🏀 Basketball Legend Classifier</h1>
-    <p>Can the AI tell your GOAT from another? Upload a photo and find out.</p>
+    <p>
+    <a href="https://github.com/dropps07">GitHub </a></p>
+    <a href="https://linkedin.com/in/ajey-awasthi07">LinkedIn</a>
 </div>
 """, unsafe_allow_html=True)
 
@@ -122,7 +132,7 @@ if not st.session_state.predicted:
     </div>
     """, unsafe_allow_html=True)
 
-    uploaded_file = st.file_uploader("Upload an image...", type=["jpg", "png", "jpeg"])
+    uploaded_file = st.file_uploader("Drag and Drop or Upload an image...", type=["jpg", "png", "jpeg"])
 
     sample_folder = "sample_images"
     sample_images = [f for f in os.listdir(sample_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
