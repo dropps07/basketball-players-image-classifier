@@ -6,7 +6,11 @@ A web app that identifies basketball legends from images using a deep learning m
 
 ## Demo
 
-https://github.com/user-attachments/assets/b97af647-bf5b-4795-982f-41eb0c6b4f7c
+
+
+https://github.com/user-attachments/assets/6bccedd7-73ce-41ea-a12b-098110db9e98
+
+
 
 ---
 
