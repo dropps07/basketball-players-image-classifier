@@ -1,3 +1,8 @@
 basketball_dataset.zip
+basketball_dataset/
+venv/
+.venv/
 basketball-classifier-app/venv/
-
+__pycache__/
+*.pyc
+.DS_Store
